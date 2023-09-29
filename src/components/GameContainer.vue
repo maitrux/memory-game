@@ -6,7 +6,6 @@ export default {
   components: {
     MemoryCard,
   },
-
   data() {
     return {
       words: this.generateMappedWords(CardStore.wordPairs),
@@ -18,15 +17,27 @@ export default {
   },
   methods: {
     generateMappedWords(wordPairs) {
-      // shuffle the wordPairs and then take the first 10
-      const wordPairsToUse = wordPairs.slice(0, 10);
+      // Shuffle the wordPairs array
+      const shuffledWordPairs = this.shuffleWordPairs(wordPairs);
 
+      // Take the first 10 shuffled pairs
+      const wordPairsToUse = shuffledWordPairs.slice(0, 10);
+
+      // Flatten the selected word pairs into an array of words
       const words = wordPairsToUse.flatMap((pair) => [
         pair.word,
         pair.translation,
       ]);
 
       return words;
+    },
+
+    shuffleWordPairs(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
     },
 
     clickCard(word) {
