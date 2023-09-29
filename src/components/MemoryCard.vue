@@ -51,7 +51,19 @@ export default {
 <style scoped lang="scss">
 .memory-card {
   background-color: #55cdfd;
-  height: 100px;
+  min-height: 100px; /* Set a minimum height for small screens */
+}
+
+@media screen and (min-width: 768px) {
+  .memory-card {
+    min-height: 100px; /* Increase the height for screens wider than 768px */
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .memory-card {
+    min-height: 120px; /* Increase the height for screens wider than 1024px */
+  }
 }
 
 .memory-card:focus {

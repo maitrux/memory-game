@@ -27,7 +27,7 @@ export default {
       <v-icon @click="dialog = true">mdi-reload</v-icon>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="d-flex justify-center align-center">
       <GameContainer />
 
       <!-- RETRY DIALOG -->
