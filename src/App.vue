@@ -1,15 +1,16 @@
 <script>
 import CardStore from "@/store/CardStore.ts";
 import GameContainer from "./components/GameContainer";
+import RetryDialog from "./components/RetryDialog";
 
 export default {
   name: "App",
   components: {
     GameContainer,
+    RetryDialog,
   },
   data() {
     return {
-      isRetryDialogOpen: false,
       categories: ["Animals", "Food", "Sports"],
       selectedCategory: "Animals", // Default category
       wordPairs: CardStore.FoodEnDe,
@@ -26,7 +27,6 @@ export default {
   },
   methods: {
     reloadGame() {
-      this.isRetryDialogOpen = false;
       window.location.reload();
     },
     updateWordPairs() {
@@ -59,32 +59,11 @@ export default {
         ></v-select>
       </div>
       <v-spacer></v-spacer>
-      <v-icon @click="isRetryDialogOpen = true">mdi-reload</v-icon>
+      <RetryDialog @retry-game="reloadGame" />
     </v-app-bar>
 
     <v-main class="d-flex justify-center align-center">
       <GameContainer :wordPairs="wordPairs" :key="selectedCategory" />
-
-      <!-- RETRY DIALOG -->
-      <v-dialog v-model="isRetryDialogOpen" width="400">
-        <v-card>
-          <v-card-text style="font-size: 20px">
-            <div class="pt-4 mb-8 d-flex justify-center">
-              Do you want to start the game again?
-            </div>
-
-            <v-btn
-              class="mb-2"
-              outlined
-              block
-              color="#00838F"
-              @click="isRetryDialogOpen = false"
-              >Close</v-btn
-            >
-            <v-btn block color="#00838F" dark @click="reloadGame">RETRY</v-btn>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
     </v-main>
   </v-app>
 </template>
