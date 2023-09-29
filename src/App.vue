@@ -1,4 +1,5 @@
 <script>
+import CardStore from "@/store/CardStore.ts";
 import GameContainer from "./components/GameContainer";
 
 export default {
@@ -8,13 +9,25 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      isRetryDialogOpen: false,
+      categories: ["Animals", "Food", "Sports"],
+      selectedCategory: "Animals", // Default category
+      wordPairs: CardStore.FoodEnDe,
     };
   },
   methods: {
     reloadGame() {
-      this.dialog = false;
+      this.isRetryDialogOpen = false;
       window.location.reload();
+    },
+    updateWordPairs() {
+      if (this.selectedCategory === "Animals") {
+        this.wordPairs = CardStore.AnimalsEnDe;
+      } else if (this.selectedCategory === "Food") {
+        this.wordPairs = CardStore.FoodEnDe;
+      } else if (this.selectedCategory === "Sports") {
+        this.wordPairs = CardStore.SportsEnDe;
+      }
     },
   },
 };
@@ -23,15 +36,25 @@ export default {
 <template>
   <v-app>
     <v-app-bar app color="#00838F" dark>
+      <div style="width: 200px">
+        <v-select
+          :items="categories"
+          v-model="selectedCategory"
+          density="comfortable"
+          label="Category"
+          hide-details
+          @change="updateWordPairs"
+        ></v-select>
+      </div>
       <v-spacer></v-spacer>
-      <v-icon @click="dialog = true">mdi-reload</v-icon>
+      <v-icon @click="isRetryDialogOpen = true">mdi-reload</v-icon>
     </v-app-bar>
 
     <v-main class="d-flex justify-center align-center">
-      <GameContainer />
+      <GameContainer :wordPairs="wordPairs" :key="selectedCategory" />
 
       <!-- RETRY DIALOG -->
-      <v-dialog v-model="dialog" width="400">
+      <v-dialog v-model="isRetryDialogOpen" width="400">
         <v-card>
           <v-card-text style="font-size: 20px">
             <div class="pt-4 mb-8 d-flex justify-center">
@@ -43,7 +66,7 @@ export default {
               outlined
               block
               color="#00838F"
-              @click="dialog = false"
+              @click="isRetryDialogOpen = false"
               >Close</v-btn
             >
             <v-btn block color="#00838F" dark @click="reloadGame">RETRY</v-btn>
@@ -53,3 +76,5 @@ export default {
     </v-main>
   </v-app>
 </template>
+
+<styles scoped lang="scss"></styles>

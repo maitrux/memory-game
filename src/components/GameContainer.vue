@@ -1,14 +1,16 @@
 <script>
-import CardStore from "@/store/CardStore.ts";
 import MemoryCard from "./MemoryCard.vue";
 
 export default {
   components: {
     MemoryCard,
   },
+  props: {
+    wordPairs: Array,
+  },
   data() {
     return {
-      words: this.generateMappedWords(CardStore.wordPairs),
+      words: this.generateMappedWords(this.wordPairs),
       clickCounter: 0,
       word1: "",
       word2: "",
@@ -66,10 +68,10 @@ export default {
 
     isWordPairCorrect() {
       const isCorrect =
-        CardStore.wordPairs.some(
+        this.wordPairs.some(
           (pair) => pair.word === this.word1 && pair.translation === this.word2
         ) ||
-        CardStore.wordPairs.some(
+        this.wordPairs.some(
           (pair) => pair.word === this.word2 && pair.translation === this.word1
         );
 
