@@ -88,5 +88,3 @@ export default {
     </v-main>
   </v-app>
 </template>
-
-<styles scoped lang="scss"></styles>

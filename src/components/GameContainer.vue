@@ -20,7 +20,7 @@ export default {
   methods: {
     generateMappedWords(wordPairs) {
       // Shuffle the wordPairs array
-      const shuffledWordPairs = this.shuffleWordPairs(wordPairs);
+      const shuffledWordPairs = this.shuffleArray(wordPairs);
 
       // Take the first 10 shuffled pairs
       const wordPairsToUse = shuffledWordPairs.slice(0, 10);
@@ -31,10 +31,11 @@ export default {
         pair.translation,
       ]);
 
-      return words;
+      return this.shuffleArray(words);
+      // return words;
     },
 
-    shuffleWordPairs(array) {
+    shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
@@ -107,5 +108,3 @@ export default {
     </v-row>
   </v-container>
 </template>
-
-<style scoped lang="scss"></style>
