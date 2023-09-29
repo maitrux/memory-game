@@ -3,54 +3,53 @@ import GameContainer from "./components/GameContainer";
 
 export default {
   name: "App",
-
   components: {
     GameContainer,
   },
-
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+  methods: {
+    reloadGame() {
+      this.dialog = false;
+      window.location.reload();
+    },
+  },
 };
 </script>
 
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-app-bar app color="#00838F" dark>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <v-icon @click="dialog = true">mdi-reload</v-icon>
     </v-app-bar>
 
     <v-main>
       <GameContainer />
+
+      <!-- RETRY DIALOG -->
+      <v-dialog v-model="dialog" width="400">
+        <v-card>
+          <v-card-text style="font-size: 20px">
+            <div class="pt-4 mb-8 d-flex justify-center">
+              Do you want to start the game again?
+            </div>
+
+            <v-btn
+              class="mb-2"
+              outlined
+              block
+              color="#00838F"
+              @click="dialog = false"
+              >Close</v-btn
+            >
+            <v-btn block color="#00838F" dark @click="reloadGame">RETRY</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-main>
   </v-app>
 </template>

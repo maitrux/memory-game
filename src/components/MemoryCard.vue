@@ -43,9 +43,8 @@ export default {
     :class="{ 'disabled-card': !isClickable || isCardClicked }"
     v-ripple="false"
   >
-    <v-card-title v-show="!isClickable || isCardClicked">{{
-      word
-    }}</v-card-title>
+    <v-card-title v-if="!isClickable || isCardClicked">{{ word }}</v-card-title>
+    <v-icon v-else size="40" color="white">mdi-comment-question-outline</v-icon>
   </v-card>
 </template>
 
@@ -62,6 +61,6 @@ export default {
 .disabled-card {
   pointer-events: none;
   background-color: white;
-  border: solid 1px #55cdfd;
+  border: solid 4px #55cdfd;
 }
 </style>
