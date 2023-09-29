@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <v-dialog v-model="isRetryDialogOpen" width="400">
+  <v-dialog v-model="isRetryDialogOpen" max-width="290">
     <template #activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" icon>
         <v-icon>mdi-reload</v-icon>
@@ -23,22 +23,17 @@ export default {
     </template>
 
     <v-card>
-      <v-card-text style="font-size: 20px">
-        <div class="pt-4 mb-8 d-flex justify-center">
-          Do you want to start the game again?
-        </div>
-
-        <v-btn
-          class="mb-2"
-          outlined
-          block
-          color="#00838F"
-          @click="isRetryDialogOpen = false"
-        >
+      <v-card-title class="headline">Restart</v-card-title>
+      <v-card-text>
+        <span>Do you want to restart the game?</span>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="grey" text @click="isRetryDialogOpen = false">
           Close
         </v-btn>
-        <v-btn block color="#00838F" dark @click="reloadGame">RETRY</v-btn>
-      </v-card-text>
+        <v-btn color="#00838F" text @click="$emit('retry')"> Retry </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

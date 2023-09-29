@@ -15,6 +15,7 @@ export default {
       word1: "",
       word2: "",
       matchedPairs: [],
+      isGameOverDialogOpen: false,
     };
   },
   methods: {
@@ -80,6 +81,11 @@ export default {
         this.matchedPairs.push({ word1: this.word1, word2: this.word2 });
       }
 
+      console.log(this.matchedPairs.length);
+      if (this.matchedPairs.length === 10) {
+        this.isGameOverDialogOpen = true;
+      }
+
       return isCorrect;
     },
 
@@ -106,5 +112,24 @@ export default {
         <memory-card :word="word" @clickCard="clickCard" />
       </v-col>
     </v-row>
+
+    <!-- Game over dialog -->
+    <v-dialog v-model="isGameOverDialogOpen" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Congratulations!</v-card-title>
+        <v-card-text>
+          <span>You have matched all the pairs!</span>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="grey" text @click="isGameOverDialogOpen = false">
+            Close
+          </v-btn>
+          <v-btn color="#00838F" text @click="$emit('retry')">
+            Play again</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>

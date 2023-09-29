@@ -59,11 +59,15 @@ export default {
         ></v-select>
       </div>
       <v-spacer></v-spacer>
-      <RetryDialog @retry-game="reloadGame" />
+      <RetryDialog @retry="reloadGame" />
     </v-app-bar>
 
     <v-main class="d-flex justify-center align-center">
-      <GameContainer :wordPairs="wordPairs" :key="selectedCategory" />
+      <GameContainer
+        :wordPairs="wordPairs"
+        :key="selectedCategory"
+        @retry="reloadGame"
+      />
     </v-main>
   </v-app>
 </template>
