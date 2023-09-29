@@ -1,22 +1,54 @@
 <script>
 export default {
   props: {
-    word: {
-      type: String,
-      required: true,
+    word: String,
+  },
+  computed: {
+    isClickable() {
+      // Check if the current card's word pair has been matched
+      return !this.$parent.matchedPairs.some(
+        (pair) => pair.word1 === this.word || pair.word2 === this.word
+      );
+    },
+  },
+  methods: {
+    handleCardClick() {
+      // Check if the card is clickable before handling the click event
+      if (this.isClickable) {
+        this.$emit("clickCard", this.word);
+      }
+
+      // Remove focus from the clicked card element
+      this.$el.blur();
     },
   },
 };
 </script>
 
 <template>
-  <v-card class="memory-card">
-    <v-card-title>{{ word }}</v-card-title>
+  <v-card
+    class="memory-card d-flex justify-center align-center"
+    @click="handleCardClick"
+    :class="{ 'disabled-card': !isClickable }"
+    v-ripple="false"
+  >
+    <v-card-title v-show="!isClickable">{{ word }}</v-card-title>
   </v-card>
 </template>
 
 <style scoped lang="scss">
 .memory-card {
   background-color: #55cdfd;
+  height: 100px;
+}
+
+.memory-card:focus {
+  outline: none;
+}
+
+.disabled-card {
+  pointer-events: none;
+  background-color: white;
+  border: solid 1px #55cdfd;
 }
 </style>

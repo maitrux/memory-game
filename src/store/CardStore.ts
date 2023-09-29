@@ -16,7 +16,7 @@ export default {
     { word: "dolphin", translation: "Delfin" },
     { word: "whale", translation: "Wal" },
     { word: "shark", translation: "Hai" },
-    { word: "octopus", translation: "Oktopus" },
+    { word: "octopus", translation: "Tintenfish" },
     { word: "crocodile", translation: "Krokodil" },
     { word: "parrot", translation: "Papagei" },
     { word: "snake", translation: "Schlange" },

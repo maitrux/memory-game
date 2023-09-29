@@ -10,9 +10,12 @@ export default {
   data() {
     return {
       words: this.generateMappedWords(CardStore.wordPairs),
+      clickCounter: 0,
+      word1: "",
+      word2: "",
+      matchedPairs: [],
     };
   },
-
   methods: {
     generateMappedWords(wordPairs) {
       // shuffle the wordPairs and then take the first 10
@@ -24,6 +27,44 @@ export default {
       ]);
 
       return words;
+    },
+
+    clickCard(word) {
+      if (this.clickCounter === 0) {
+        this.word1 = word;
+        this.clickCounter++;
+      } else if (this.clickCounter === 1) {
+        this.word2 = word;
+        this.clickCounter++;
+
+        if (this.isWordPairCorrect()) {
+          console.log("correct pair");
+        } else {
+          console.log("wrooong");
+        }
+
+        setTimeout(() => {
+          this.word1 = "";
+          this.word2 = "";
+          this.clickCounter = 0;
+        }, 500);
+      }
+    },
+
+    isWordPairCorrect() {
+      const isCorrect =
+        CardStore.wordPairs.some(
+          (pair) => pair.word === this.word1 && pair.translation === this.word2
+        ) ||
+        CardStore.wordPairs.some(
+          (pair) => pair.word === this.word2 && pair.translation === this.word1
+        );
+
+      if (isCorrect) {
+        this.matchedPairs.push({ word1: this.word1, word2: this.word2 });
+      }
+
+      return isCorrect;
     },
   },
 };
@@ -40,7 +81,7 @@ export default {
         md="3"
         lg="3"
       >
-        <memory-card :word="word" />
+        <memory-card :word="word" @clickCard="clickCard" />
       </v-col>
     </v-row>
   </v-container>
