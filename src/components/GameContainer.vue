@@ -48,12 +48,14 @@ export default {
         this.word2 = word;
         this.clickCounter++;
 
-        if (this.isWordPairCorrect()) {
-          console.log("correct pair");
-        } else {
-          console.log("wrooong");
+        // Close both cars if they are not a pair
+        if (!this.isWordPairCorrect()) {
+          setTimeout(() => {
+            this.closeCards();
+          }, 500);
         }
 
+        // Reset the click counter and the words
         setTimeout(() => {
           this.word1 = "";
           this.word2 = "";
@@ -76,6 +78,12 @@ export default {
       }
 
       return isCorrect;
+    },
+
+    closeCards() {
+      this.$children.forEach((child) => {
+        child.isCardClicked = false;
+      });
     },
   },
 };
