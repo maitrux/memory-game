@@ -15,6 +15,15 @@ export default {
       wordPairs: CardStore.FoodEnDe,
     };
   },
+  mounted() {
+    // Update cards according to the selected category if it saved in local storage
+    const selectedCategory = localStorage.getItem("selectedCategory");
+    if (selectedCategory) {
+      this.selectedCategory = selectedCategory;
+    }
+
+    this.updateWordPairs();
+  },
   methods: {
     reloadGame() {
       this.isRetryDialogOpen = false;
@@ -28,6 +37,9 @@ export default {
       } else if (this.selectedCategory === "Sports") {
         this.wordPairs = CardStore.SportsEnDe;
       }
+
+      // save the selected category to local storage
+      localStorage.setItem("selectedCategory", this.selectedCategory);
     },
   },
 };
