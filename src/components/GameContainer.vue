@@ -32,8 +32,8 @@ export default {
         pair.translation,
       ]);
 
-      return this.shuffleArray(words);
-      // return words;
+      // return this.shuffleArray(words);
+      return words;
     },
 
     shuffleArray(array) {

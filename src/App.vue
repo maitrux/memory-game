@@ -1,11 +1,14 @@
 <script>
 import CardStore from "@/store/CardStore.ts";
+import PlayerStore from "@/store/PlayerStore.ts";
+import AddPlayers from "./components/AddPlayers";
 import GameContainer from "./components/GameContainer";
 import RetryDialog from "./components/RetryDialog";
 
 export default {
   name: "App",
   components: {
+    AddPlayers,
     GameContainer,
     RetryDialog,
   },
@@ -14,6 +17,7 @@ export default {
       categories: ["Animals", "Food", "Sports"],
       selectedCategory: "Animals", // Default category
       wordPairs: CardStore.FoodEnDe,
+      players: PlayerStore.players,
     };
   },
   mounted() {
@@ -47,13 +51,14 @@ export default {
 
 <template>
   <v-app>
-    <v-app-bar app color="#00838F" dark>
+    <v-app-bar class="pt-2" app color="#00838F" dark style="height: 70px">
       <div style="width: 200px">
         <v-select
           :items="categories"
           v-model="selectedCategory"
           density="comfortable"
           label="Category"
+          outlined
           hide-details
           @change="updateWordPairs"
         ></v-select>
@@ -63,11 +68,17 @@ export default {
     </v-app-bar>
 
     <v-main class="d-flex justify-center align-center">
-      <GameContainer
-        :wordPairs="wordPairs"
-        :key="selectedCategory"
-        @retry="reloadGame"
-      />
+      <template v-if="players.length === 0">
+        <AddPlayers />
+      </template>
+
+      <template v-else>
+        <GameContainer
+          :wordPairs="wordPairs"
+          :key="selectedCategory"
+          @retry="reloadGame"
+        />
+      </template>
     </v-main>
   </v-app>
 </template>
