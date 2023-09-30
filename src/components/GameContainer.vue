@@ -82,6 +82,7 @@ export default {
       if (isCorrect) {
         this.matchedPairs.push({ word1: this.word1, word2: this.word2 });
         this.updatePlayerScore(this.currentPlayerIndex);
+      } else {
         this.switchPlayerTurn();
       }
 
