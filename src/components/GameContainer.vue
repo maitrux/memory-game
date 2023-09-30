@@ -1,5 +1,6 @@
 <script>
 import MemoryCard from "./MemoryCard.vue";
+import PlayerStore from "@/store/PlayerStore.ts";
 
 export default {
   components: {
@@ -16,6 +17,7 @@ export default {
       word2: "",
       matchedPairs: [],
       isGameOverDialogOpen: false,
+      currentPlayerIndex: 0, // Track the index of the current player
     };
   },
   methods: {
@@ -79,14 +81,26 @@ export default {
 
       if (isCorrect) {
         this.matchedPairs.push({ word1: this.word1, word2: this.word2 });
+        this.updatePlayerScore(this.currentPlayerIndex);
+        this.switchPlayerTurn();
       }
 
-      console.log(this.matchedPairs.length);
       if (this.matchedPairs.length === 10) {
         this.isGameOverDialogOpen = true;
       }
 
       return isCorrect;
+    },
+
+    updatePlayerScore(playerIndex) {
+      if (playerIndex >= 0 && playerIndex < PlayerStore.players.length) {
+        PlayerStore.players[playerIndex].score++;
+      }
+    },
+
+    switchPlayerTurn() {
+      this.currentPlayerIndex =
+        (this.currentPlayerIndex + 1) % PlayerStore.players.length;
     },
 
     closeCards() {

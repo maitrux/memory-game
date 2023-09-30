@@ -17,11 +17,12 @@ export default {
       categories: ["Animals", "Food", "Sports"],
       selectedCategory: "Animals", // Default category
       wordPairs: CardStore.FoodEnDe,
-      players: PlayerStore.players,
+      isGameStarted: false,
+      players: [],
     };
   },
   mounted() {
-    // Update cards according to the selected category if it saved in local storage
+    // Update cards according to the selected category if it's saved in local storage
     const selectedCategory = localStorage.getItem("selectedCategory");
     if (selectedCategory) {
       this.selectedCategory = selectedCategory;
@@ -33,6 +34,7 @@ export default {
     reloadGame() {
       window.location.reload();
     },
+
     updateWordPairs() {
       if (this.selectedCategory === "Animals") {
         this.wordPairs = CardStore.AnimalsEnDe;
@@ -42,8 +44,13 @@ export default {
         this.wordPairs = CardStore.SportsEnDe;
       }
 
-      // save the selected category to local storage
+      // Save the selected category to local storage
       localStorage.setItem("selectedCategory", this.selectedCategory);
+    },
+
+    startGame() {
+      this.isGameStarted = true;
+      this.players = PlayerStore.players;
     },
   },
 };
@@ -51,7 +58,7 @@ export default {
 
 <template>
   <v-app>
-    <v-app-bar class="pt-2" app color="#00838F" dark style="height: 70px">
+    <v-app-bar class="pt-1" app color="#00838F" dark style="height: 70px">
       <div style="width: 200px">
         <v-select
           :items="categories"
@@ -63,13 +70,21 @@ export default {
           @change="updateWordPairs"
         ></v-select>
       </div>
-      <v-spacer></v-spacer>
       <RetryDialog @retry="reloadGame" />
+      <v-spacer></v-spacer>
+
+      <!-- Player info -->
+      <div class="pt-1" v-for="(player, index) in players" :key="index">
+        <v-alert class="player-info pa-2 mr-2">
+          <span>{{ player.name }}</span>
+          <span class="ml-2">{{ player.score }}</span>
+        </v-alert>
+      </div>
     </v-app-bar>
 
     <v-main class="d-flex justify-center align-center">
-      <template v-if="players.length === 0">
-        <AddPlayers />
+      <template v-if="!isGameStarted">
+        <AddPlayers @start="startGame" />
       </template>
 
       <template v-else>
@@ -82,3 +97,11 @@ export default {
     </v-main>
   </v-app>
 </template>
+
+<styles lang="scss">
+.player-info {
+  background-color: white !important;
+  color: #00838f !important;
+  font-weight: bold;
+}
+</styles>
