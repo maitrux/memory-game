@@ -74,12 +74,12 @@ export default {
           </v-btn>
 
           <v-btn
-            class="mt-2"
+            class="add-player-btn mt-2"
             color="#00838F"
             @click="startGame"
             block
-            dark
             depressed
+            :disabled="!playerNames.length"
           >
             Start playing
           </v-btn>
