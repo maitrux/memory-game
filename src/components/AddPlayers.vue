@@ -46,23 +46,26 @@ export default {
           ></v-text-field>
 
           <!-- Display the list of added players -->
-          <div
-            class="mt-2"
-            v-for="(playerName, index) in playerNames"
-            :key="index"
-          >
-            <v-chip class="mr-2" outlined>
-              {{ playerName }}
-              <v-icon class="ml-2" small @click="removePlayer(index)"
-                >mdi-close-circle</v-icon
-              >
-            </v-chip>
-          </div>
+
+          <v-chip-group>
+            <div
+              class="mt-2"
+              v-for="(playerName, index) in playerNames"
+              :key="index"
+            >
+              <v-chip class="mr-2" outlined color="#00838F">
+                {{ playerName }}
+                <v-icon class="ml-2" small @click="removePlayer(index)"
+                  >mdi-close-circle</v-icon
+                >
+              </v-chip>
+            </div>
+          </v-chip-group>
 
           <v-btn
             :disabled="!newPlayerName"
             class="add-player-btn mt-2"
-            color="#00838F"
+            color="#55cdfd"
             @click="addPlayer"
             block
             depressed

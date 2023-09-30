@@ -19,6 +19,7 @@ export default {
       wordPairs: CardStore.FoodEnDe,
       isGameStarted: false,
       players: [],
+      currentPlayerIndex: 0,
     };
   },
   mounted() {
@@ -52,6 +53,10 @@ export default {
       this.isGameStarted = true;
       this.players = PlayerStore.players;
     },
+
+    switchPlayerTurn(index) {
+      this.currentPlayerIndex = index;
+    },
   },
 };
 </script>
@@ -74,8 +79,14 @@ export default {
       <v-spacer></v-spacer>
 
       <!-- Player info -->
-      <div class="pt-1" v-for="(player, index) in players" :key="index">
-        <v-alert class="player-info pa-2 mr-2">
+      <div v-for="(player, index) in players" :key="index">
+        <v-alert
+          class="player-info pa-2 mb-0 mr-2"
+          :class="{
+            'current-player':
+              players.length > 1 && index === currentPlayerIndex,
+          }"
+        >
           <span>{{ player.name }}</span>
           <span class="ml-2">{{ player.score }}</span>
         </v-alert>
@@ -91,6 +102,7 @@ export default {
         <GameContainer
           :wordPairs="wordPairs"
           :key="selectedCategory"
+          @switchPlayerTurn="switchPlayerTurn"
           @retry="reloadGame"
         />
       </template>
@@ -103,5 +115,10 @@ export default {
   background-color: white !important;
   color: #00838f !important;
   font-weight: bold;
+}
+
+.current-player {
+  background-color: #ffeb3b !important;
+  color: #00838f !important;
 }
 </styles>
